@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<<<<<<< HEAD
 # [5.0.0-beta.1](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/camera@5.0.0-beta.0...@capacitor/camera@5.0.0-beta.1) (2023-04-21)
 
 
@@ -15,10 +16,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 # [5.0.0-beta.0](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/camera@5.0.0-alpha.1...@capacitor/camera@5.0.0-beta.0) (2023-03-31)
+=======
+## [4.1.5](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/camera@4.1.4...@capacitor/camera@4.1.5) (2023-04-26)
+>>>>>>> 50d5147d (chore(release): publish [skip ci])
 
 
 ### Bug Fixes
 
+<<<<<<< HEAD
 * **camera:** add proper permissions for Android 13 ([#1509](https://github.com/ionic-team/capacitor-plugins/issues/1509)) ([0dcbe56](https://github.com/ionic-team/capacitor-plugins/commit/0dcbe56bc554b1919c3e26d2f6b7ff8e5b7a0f5e))
 * **camera:** prevent iOS crash with 0 limited images selected ([#1495](https://github.com/ionic-team/capacitor-plugins/issues/1495)) ([33f5c8e](https://github.com/ionic-team/capacitor-plugins/commit/33f5c8ebc7705c0e697caee4b2177ebc27d46311))
 
@@ -37,6 +42,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * **android:** Removing enableJetifier ([d66f9cb](https://github.com/ionic-team/capacitor-plugins/commit/d66f9cbd9da7e3b1d8c64ca6a5b45156867d4a04))
+=======
+* **camera:** prevent iOS crash with 0 limited images selected ([#1495](https://github.com/ionic-team/capacitor-plugins/issues/1495)) ([#1499](https://github.com/ionic-team/capacitor-plugins/issues/1499)) ([188b933](https://github.com/ionic-team/capacitor-plugins/commit/188b933050dd5660ba7893de6f4b96f95ee763c6))
+>>>>>>> 50d5147d (chore(release): publish [skip ci])
 
 
 

@@ -1,6 +1,10 @@
 {
   "name": "@capacitor/camera",
+<<<<<<< HEAD
   "version": "5.0.0-beta.1",
+=======
+  "version": "4.1.5",
+>>>>>>> 50d5147d (chore(release): publish [skip ci])
   "description": "The Camera API provides the ability to take a photo with the camera or choose an existing one from the photo album.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
