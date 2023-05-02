@@ -108,6 +108,8 @@ class CapacitorGoogleMap(
                 if (config.styles != null) {
                     googleMap?.setMapStyle(MapStyleOptions(config.styles!!));
                 }
+
+
             }
         }
     }
