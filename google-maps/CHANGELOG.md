@@ -3,6 +3,95 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0-beta.1](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/google-maps@5.0.0-beta.0...@capacitor/google-maps@5.0.0-beta.1) (2023-04-21)
+
+
+### Bug Fixes
+
+* **google-maps:** Cast iOS marker id to string ([#1222](https://github.com/ionic-team/capacitor-plugins/issues/1222)) ([0ffb621](https://github.com/ionic-team/capacitor-plugins/commit/0ffb62159bbdb38cf3657ca15f7e69573d83a792))
+* **google-maps:** fix custom icon on marker when clustering is enabled ([#1522](https://github.com/ionic-team/capacitor-plugins/issues/1522)) ([12be06a](https://github.com/ionic-team/capacitor-plugins/commit/12be06a1de1adc2e961cdd6837f203c19343ad8d))
+
+
+### Features
+
+* **google-maps:** Circles support ([#1553](https://github.com/ionic-team/capacitor-plugins/issues/1553)) ([c39d84f](https://github.com/ionic-team/capacitor-plugins/commit/c39d84fbae464fc8984e26f970e85fd1862ff2ac))
+* **google-maps:** Polygons support ([#1534](https://github.com/ionic-team/capacitor-plugins/issues/1534)) ([e2fd153](https://github.com/ionic-team/capacitor-plugins/commit/e2fd15318d0ba9a07386d0389d985ec65071341e))
+* **google-maps:** Polylines support ([#1532](https://github.com/ionic-team/capacitor-plugins/issues/1532)) ([415f42b](https://github.com/ionic-team/capacitor-plugins/commit/415f42b351d4ac8fd555efc3d6b0dfa9b09a80b9))
+* Update gradle to 8.0.2 and gradle plugin to 8.0.0 ([#1542](https://github.com/ionic-team/capacitor-plugins/issues/1542)) ([e7210b4](https://github.com/ionic-team/capacitor-plugins/commit/e7210b47867644f5983e37acdbf0247214ec232d))
+
+
+
+
+
+# [5.0.0-beta.0](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/google-maps@5.0.0-alpha.1...@capacitor/google-maps@5.0.0-beta.0) (2023-03-31)
+
+
+### Bug Fixes
+
+* **google-maps:** setMapType not working on web ([#1508](https://github.com/ionic-team/capacitor-plugins/issues/1508)) ([4efa7d7](https://github.com/ionic-team/capacitor-plugins/commit/4efa7d7ccc0a48f61131bb8f729de13ac7b00fb3))
+
+
+### Features
+
+* **google-maps:** add extend to LatLngBounds ([fb2dc0d](https://github.com/ionic-team/capacitor-plugins/commit/fb2dc0d42f9eaa928e9bdb38980ac9b84ae4c4b7))
+
+
+
+
+
+# [5.0.0-alpha.1](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/google-maps@4.5.0...@capacitor/google-maps@5.0.0-alpha.1) (2023-03-16)
+
+
+### Features
+
+* **android:** Removing enableJetifier ([d66f9cb](https://github.com/ionic-team/capacitor-plugins/commit/d66f9cbd9da7e3b1d8c64ca6a5b45156867d4a04))
+* **google-maps:** add zIndex to markers ([53a0436](https://github.com/ionic-team/capacitor-plugins/commit/53a04366ad331ada081589aef9c726b4356688df))
+
+
+
+
+
+# [4.5.0](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/google-maps@4.4.0...@capacitor/google-maps@4.5.0) (2023-02-22)
+
+
+### Bug Fixes
+
+* **google-maps/android:** dispatch touch events to correct y position ([#1415](https://github.com/ionic-team/capacitor-plugins/issues/1415)) ([87e9a6e](https://github.com/ionic-team/capacitor-plugins/commit/87e9a6e97f843228c62245a80eeb6cb86d43500e))
+
+
+### Features
+
+* **google-maps:** add contains to LatLngBounds ([a6b9962](https://github.com/ionic-team/capacitor-plugins/commit/a6b9962f1b6d6c2f873dd8c373b7aa16a49eff6d))
+* **google-maps:** Add getMapType method ([#1420](https://github.com/ionic-team/capacitor-plugins/issues/1420)) ([c2fa96f](https://github.com/ionic-team/capacitor-plugins/commit/c2fa96fc709b59fa55a6f61ecb4d80be214982c5))
+
+
+
+
+
+# [4.4.0](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/google-maps@4.3.2...@capacitor/google-maps@4.4.0) (2023-02-03)
+
+
+### Bug Fixes
+
+* **google-maps/android:** update clusters on map move ([#1398](https://github.com/ionic-team/capacitor-plugins/issues/1398)) ([3a23238](https://github.com/ionic-team/capacitor-plugins/commit/3a2323833779d9b545140057070f5acda38d9b32))
+
+
+### Features
+
+* **google-maps:** Add minClusterSize setting for enableClustering ([#1399](https://github.com/ionic-team/capacitor-plugins/issues/1399)) ([fba34b8](https://github.com/ionic-team/capacitor-plugins/commit/fba34b823e60aba43f82761bf7c3b42675702b7f))
+
+
+
+
+
+## [4.3.2](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/google-maps@4.3.1...@capacitor/google-maps@4.3.2) (2022-12-01)
+
+**Note:** Version bump only for package @capacitor/google-maps
+
+
+
+
+
 ## [4.3.1](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/google-maps@4.3.0...@capacitor/google-maps@4.3.1) (2022-11-16)
 
 

@@ -3,9 +3,13 @@ import type {
   Cluster,
   onClusterClickHandler,
 } from '@googlemaps/markerclusterer';
-import { MarkerClusterer } from '@googlemaps/markerclusterer';
+import {
+  MarkerClusterer,
+  SuperClusterAlgorithm,
+} from '@googlemaps/markerclusterer';
 
-import type { LatLngBounds, Marker } from './definitions';
+import type { Marker } from './definitions';
+import { MapType, LatLngBounds } from './definitions';
 import type {
   AccElementsArgs,
   AddMarkerArgs,
@@ -22,6 +26,15 @@ import type {
   TrafficLayerArgs,
   RemoveMarkersArgs,
   OnScrollArgs,
+  MapBoundsContainsArgs,
+  EnableClusteringArgs,
+  MapBoundsExtendArgs,
+  AddPolygonsArgs,
+  RemovePolygonsArgs,
+  AddCirclesArgs,
+  RemoveCirclesArgs,
+  AddPolylinesArgs,
+  RemovePolylinesArgs,
 } from './implementation';
 
 export class CapacitorGoogleMapsWeb
@@ -37,11 +50,23 @@ export class CapacitorGoogleMapsWeb
         [id: string]: google.maps.Marker;
       };
       DirectionRendered?: google.maps.DirectionsRenderer;
+      polygons: {
+        [id: string]: google.maps.Polygon;
+      };
+      circles: {
+        [id: string]: google.maps.Circle;
+      };
+      polylines: {
+        [id: string]: google.maps.Polyline;
+      };
       markerClusterer?: MarkerClusterer;
       trafficLayer?: google.maps.TrafficLayer;
     };
   } = {};
   private currMarkerId = 0;
+  private currPolygonId = 0;
+  private currCircleId = 0;
+  private currPolylineId = 0;
 
   async handlerDirections(args: {
     id: string;
@@ -138,8 +163,23 @@ export class CapacitorGoogleMapsWeb
     });
   }
 
+  async getMapType(_args: { id: string }): Promise<{ type: string }> {
+    let type = this.maps[_args.id].map.getMapTypeId();
+    if (type !== undefined) {
+      if (type === 'roadmap') {
+        type = MapType.Normal;
+      }
+      return { type };
+    }
+    throw new Error('Map type is undefined');
+  }
+
   async setMapType(_args: MapTypeArgs): Promise<void> {
-    this.maps[_args.id].map.setMapTypeId(_args.mapType);
+    let mapType = _args.mapType.toLowerCase();
+    if (mapType === MapType.Normal) {
+      mapType = 'roadmap';
+    }
+    this.maps[_args.id].map.setMapTypeId(mapType);
   }
 
   async enableIndoorMaps(_args: IndoorMapArgs): Promise<void> {
@@ -207,7 +247,7 @@ export class CapacitorGoogleMapsWeb
       throw new Error('Google Map Bounds could not be found.');
     }
 
-    return {
+    return new LatLngBounds({
       southwest: {
         lat: bounds.getSouthWest().lat(),
         lng: bounds.getSouthWest().lng(),
@@ -220,7 +260,7 @@ export class CapacitorGoogleMapsWeb
         lat: bounds.getNorthEast().lat(),
         lng: bounds.getNorthEast().lng(),
       },
-    };
+    });
   }
 
   async addMarkers(_args: AddMarkersArgs): Promise<{ ids: string[] }> {
@@ -282,7 +322,94 @@ export class CapacitorGoogleMapsWeb
     delete this.maps[_args.id].markers[_args.markerId];
   }
 
-  async enableClustering(_args: { id: string }): Promise<void> {
+  async addPolygons(args: AddPolygonsArgs): Promise<{ ids: string[] }> {
+    const polygonIds: string[] = [];
+    const map = this.maps[args.id];
+
+    for (const polygonArgs of args.polygons) {
+      const polygon = new google.maps.Polygon(polygonArgs);
+      polygon.setMap(map.map);
+
+      const id = '' + this.currPolygonId;
+      this.maps[args.id].polygons[id] = polygon;
+      this.setPolygonListeners(args.id, id, polygon);
+
+      polygonIds.push(id);
+      this.currPolygonId++;
+    }
+
+    return { ids: polygonIds };
+  }
+
+  async removePolygons(args: RemovePolygonsArgs): Promise<void> {
+    const map = this.maps[args.id];
+
+    for (const id of args.polygonIds) {
+      map.polygons[id].setMap(null);
+      delete map.polygons[id];
+    }
+  }
+
+  async addCircles(args: AddCirclesArgs): Promise<{ ids: string[] }> {
+    const circleIds: string[] = [];
+    const map = this.maps[args.id];
+
+    for (const circleArgs of args.circles) {
+      const circle = new google.maps.Circle(circleArgs);
+      circle.setMap(map.map);
+
+      const id = '' + this.currCircleId;
+      this.maps[args.id].circles[id] = circle;
+      this.setCircleListeners(args.id, id, circle);
+
+      circleIds.push(id);
+      this.currCircleId++;
+    }
+
+    return { ids: circleIds };
+  }
+
+  async removeCircles(args: RemoveCirclesArgs): Promise<void> {
+    const map = this.maps[args.id];
+
+    for (const id of args.circleIds) {
+      map.circles[id].setMap(null);
+      delete map.circles[id];
+    }
+  }
+
+  async addPolylines(args: AddPolylinesArgs): Promise<{ ids: string[] }> {
+    const lineIds: string[] = [];
+    const map = this.maps[args.id];
+
+    for (const polylineArgs of args.polylines) {
+      const polyline = new google.maps.Polyline(polylineArgs);
+      polyline.set('tag', polylineArgs.tag);
+      polyline.setMap(map.map);
+
+      const id = '' + this.currPolylineId;
+      this.maps[args.id].polylines[id] = polyline;
+      this.setPolylineListeners(args.id, id, polyline);
+
+      lineIds.push(id);
+      this.currPolylineId++;
+    }
+
+    return {
+      ids: lineIds,
+    };
+  }
+
+  async removePolylines(args: RemovePolylinesArgs): Promise<void> {
+    const map = this.maps[args.id];
+
+    for (const id of args.polylineIds) {
+      map.polylines[id].setMap(null);
+      delete map.polylines[id];
+    }
+  }
+
+  async enableClustering(_args: EnableClusteringArgs): Promise<void> {
     const markers: google.maps.Marker[] = [];
 
     for (const id in this.maps[_args.id].markers) {
@@ -292,6 +419,9 @@ export class CapacitorGoogleMapsWeb
     this.maps[_args.id].markerClusterer = new MarkerClusterer({
       map: this.maps[_args.id].map,
       markers: markers,
+      algorithm: new SuperClusterAlgorithm({
+        minPoints: _args.minClusterSize ?? 4,
+      }),
       onClusterClick: this.onClusterClickHandler,
     });
   }
@@ -312,6 +442,9 @@ export class CapacitorGoogleMapsWeb
       map: new window.google.maps.Map(_args.element, { ..._args.config }),
       element: _args.element,
       markers: {},
+      polygons: {},
+      circles: {},
+      polylines: {},
     };
     this.setMapListeners(_args.id);
   }
@@ -322,6 +455,86 @@ export class CapacitorGoogleMapsWeb
     mapItem.element.innerHTML = '';
     mapItem.map.unbindAll();
     delete this.maps[_args.id];
+  }
+
+  async mapBoundsContains(
+    _args: MapBoundsContainsArgs,
+  ): Promise<{ contains: boolean }> {
+    const bounds = this.getLatLngBounds(_args.bounds);
+    const point = new google.maps.LatLng(_args.point.lat, _args.point.lng);
+    return { contains: bounds.contains(point) };
+  }
+
+  async mapBoundsExtend(
+    _args: MapBoundsExtendArgs,
+  ): Promise<{ bounds: LatLngBounds }> {
+    const bounds = this.getLatLngBounds(_args.bounds);
+    const point = new google.maps.LatLng(_args.point.lat, _args.point.lng);
+    bounds.extend(point);
+    const result = new LatLngBounds({
+      southwest: {
+        lat: bounds.getSouthWest().lat(),
+        lng: bounds.getSouthWest().lng(),
+      },
+      center: {
+        lat: bounds.getCenter().lat(),
+        lng: bounds.getCenter().lng(),
+      },
+      northeast: {
+        lat: bounds.getNorthEast().lat(),
+        lng: bounds.getNorthEast().lng(),
+      },
+    });
+    return { bounds: result };
+  }
+
+  private getLatLngBounds(_args: LatLngBounds): google.maps.LatLngBounds {
+    return new google.maps.LatLngBounds(
+      new google.maps.LatLng(_args.southwest.lat, _args.southwest.lng),
+      new google.maps.LatLng(_args.northeast.lat, _args.northeast.lng),
+    );
+  }
+
+  async setCircleListeners(
+    mapId: string,
+    circleId: string,
+    circle: google.maps.Circle,
+  ): Promise<void> {
+    circle.addListener('click', () => {
+      this.notifyListeners('onCircleClick', {
+        mapId: mapId,
+        circleId: circleId,
+        tag: circle.get('tag'),
+      });
+    });
+  }
+
+  async setPolygonListeners(
+    mapId: string,
+    polygonId: string,
+    polygon: google.maps.Polygon,
+  ): Promise<void> {
+    polygon.addListener('click', () => {
+      this.notifyListeners('onPolygonClick', {
+        mapId: mapId,
+        polygonId: polygonId,
+        tag: polygon.get('tag'),
+      });
+    });
+  }
+
+  async setPolylineListeners(
+    mapId: string,
+    polylineId: string,
+    polyline: google.maps.Polyline,
+  ): Promise<void> {
+    polyline.addListener('click', () => {
+      this.notifyListeners('onPolylineClick', {
+        mapId: mapId,
+        polylineId: polylineId,
+        tag: polyline.get('tag'),
+      });
+    });
   }
 
   async setMarkerListeners(
@@ -453,6 +666,7 @@ export class CapacitorGoogleMapsWeb
       title: marker.title,
       icon: iconImage,
       draggable: marker.draggable,
+      zIndex: marker.zIndex,
     };
 
     return opts;

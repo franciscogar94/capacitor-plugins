@@ -24,6 +24,7 @@ Read about [Configuring `Info.plist`](https://capacitorjs.com/docs/ios/configura
 This API requires the following permissions be added to your `AndroidManifest.xml`:
 
 ```xml
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
@@ -38,8 +39,8 @@ Additionally, because the Camera API launches a separate Activity to handle taki
 
 This plugin will use the following project variables (defined in your app's `variables.gradle` file):
 
-- `$androidxExifInterfaceVersion`: version of `androidx.exifinterface:exifinterface` (default: `1.3.3`)
-- `$androidxMaterialVersion`: version of `com.google.android.material:material` (default: `1.6.1`)
+- `$androidxExifInterfaceVersion`: version of `androidx.exifinterface:exifinterface` (default: `1.3.6`)
+- `$androidxMaterialVersion`: version of `com.google.android.material:material` (default: `1.8.0`)
 
 ## PWA Notes
 
