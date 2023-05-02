@@ -282,16 +282,13 @@ export default MyMap;
 * [`addMarkers(...)`](#addmarkers)
 * [`removeMarker(...)`](#removemarker)
 * [`removeMarkers(...)`](#removemarkers)
-<<<<<<< HEAD
 * [`removeAllMarkers()`](#removeallmarkers)
-=======
 * [`addPolygons(...)`](#addpolygons)
 * [`removePolygons(...)`](#removepolygons)
 * [`addCircles(...)`](#addcircles)
 * [`removeCircles(...)`](#removecircles)
 * [`addPolylines(...)`](#addpolylines)
 * [`removePolylines(...)`](#removepolylines)
->>>>>>> upstream/main
 * [`destroy()`](#destroy)
 * [`setCamera(...)`](#setcamera)
 * [`getMapType()`](#getmaptype)
@@ -420,14 +417,15 @@ removeMarkers(ids: string[]) => Promise<void>
 --------------------
 
 
-<<<<<<< HEAD
 ### removeAllMarkers()
 
 ```typescript
 removeAllMarkers() => Promise<void>
 ```
 
-=======
+--------------------
+
+
 ### addPolygons(...)
 
 ```typescript
@@ -509,7 +507,6 @@ removePolylines(ids: string[]) => Promise<void>
 | --------- | --------------------- |
 | **`ids`** | <code>string[]</code> |
 
->>>>>>> upstream/main
 --------------------
 
 

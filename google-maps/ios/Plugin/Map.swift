@@ -78,7 +78,6 @@ public class Map {
     var circles = [Int: GMSCircle]()
     var polylines = [Int: GMSPolyline]()
     var markerIcons = [String: UIImage]()
-    var polylines = [Int: GMSPolyline]()
     var directionsPolylines = [Int: GMSPolyline]()
 
     // swiftlint:disable weak_delegate
