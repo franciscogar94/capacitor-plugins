@@ -12,15 +12,12 @@ CAP_PLUGIN(CapacitorGoogleMapsPlugin, "CapacitorGoogleMaps",
    CAP_PLUGIN_METHOD(addCircles, CAPPluginReturnPromise);
    CAP_PLUGIN_METHOD(removeMarker, CAPPluginReturnPromise);
    CAP_PLUGIN_METHOD(removeMarkers, CAPPluginReturnPromise);
-<<<<<<< HEAD
    CAP_PLUGIN_METHOD(removeAllMarkers, CAPPluginReturnPromise);
    CAP_PLUGIN_METHOD(handlerDirections, CAPPluginReturnPromise);
    CAP_PLUGIN_METHOD(removeAllDirectionsPolylines, CAPPluginReturnPromise);
-=======
    CAP_PLUGIN_METHOD(removeCircles, CAPPluginReturnPromise);
    CAP_PLUGIN_METHOD(removePolygons, CAPPluginReturnPromise);
    CAP_PLUGIN_METHOD(removePolylines, CAPPluginReturnPromise);
->>>>>>> upstream/main
    CAP_PLUGIN_METHOD(enableClustering, CAPPluginReturnPromise);
    CAP_PLUGIN_METHOD(disableClustering, CAPPluginReturnPromise);
    CAP_PLUGIN_METHOD(destroy, CAPPluginReturnPromise);
