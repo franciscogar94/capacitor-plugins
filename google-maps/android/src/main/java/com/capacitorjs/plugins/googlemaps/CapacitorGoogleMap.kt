@@ -178,29 +178,7 @@ class CapacitorGoogleMap(
     }
 
 
-    fun addPolyline(
-            polyline:CapacitorGoogleMapsPolyline,
-            callback: (result: Result<String>)
-     -> Unit ){
-        try{
-            googleMap?: throw GoogleMapNotAvailable()
-            var polyLineId:String
-            CoroutineScope(Dispatchers.Main).launch {
-                val googleMapPolyline =  googleMap?.addPolyline( PolylineOptions().add(
-                        polyline.coordinate1,polyline.coordinate2
-                ).width(polyline.width).color(polyline.color));
-                polylines[googleMapPolyline!!.id] = polyline;
-                polyLineId = googleMapPolyline.id
-                polyline.googleMapPolyline = googleMapPolyline;
-                callback(Result.success(polyLineId))
-            }
 
-        }
-        catch (err:GoogleMapsError){
-            callback(Result.failure(err))
-        }
-
-    }
 
     fun addMarkers(
             newMarkers: List<CapacitorGoogleMapMarker>,
