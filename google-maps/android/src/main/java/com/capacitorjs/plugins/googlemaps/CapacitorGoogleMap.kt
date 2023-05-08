@@ -302,33 +302,6 @@ class CapacitorGoogleMap(
             callback(Result.failure(e))
         }
     }
-
-    fun addPolylines(newLines: List<CapacitorGoogleMapPolyline>, callback: (ids: Result<List<String>>) -> Unit) {
-        try {
-            googleMap ?: throw GoogleMapNotAvailable()
-            val lineIds: MutableList<String> = mutableListOf()
-
-            CoroutineScope(Dispatchers.Main).launch {
-                newLines.forEach {
-                    val polylineOptions: Deferred<PolylineOptions> = CoroutineScope(Dispatchers.IO).async {
-                        this@CapacitorGoogleMap.buildPolyline(it)
-                    }
-                    val googleMapPolyline = googleMap?.addPolyline(polylineOptions.await())
-                    googleMapPolyline?.tag = it.tag
-                    
-                    it.googleMapsPolyline = googleMapPolyline
-
-                    polylines[googleMapPolyline!!.id] = it
-                    lineIds.add(googleMapPolyline.id)
-                }
-
-                callback(Result.success(lineIds))
-            }
-        } catch (e: GoogleMapsError) {
-            callback(Result.failure(e))
-        }
-    }
-
     private fun setClusterManagerRenderer(minClusterSize: Int?) {
         clusterManager?.renderer = CapacitorClusterManagerRenderer(
             delegate.bridge.context,
@@ -337,7 +310,6 @@ class CapacitorGoogleMap(
             minClusterSize
         )
     }
-
     @SuppressLint("PotentialBehaviorOverride")
     fun enableClustering(minClusterSize: Int?, callback: (error: GoogleMapsError?) -> Unit) {
         try {
@@ -792,7 +764,6 @@ class CapacitorGoogleMap(
         polygonOptions.zIndex(polygon.zIndex)
         polygonOptions.geodesic(polygon.geodesic)
         polygonOptions.clickable(polygon.clickable)
-
         var shapeCounter = 0
         polygon.shapes.forEach {
             if (shapeCounter == 0) {
@@ -809,29 +780,7 @@ class CapacitorGoogleMap(
 
         return polygonOptions
     }
-    
-    private fun buildPolyline(line: CapacitorGoogleMapPolyline): PolylineOptions {
-        val polylineOptions = PolylineOptions()
-        polylineOptions.width(line.strokeWidth * this.config.devicePixelRatio)
-        polylineOptions.color(line.strokeColor)
-        polylineOptions.clickable(line.clickable)
-        polylineOptions.zIndex(line.zIndex)
-        polylineOptions.geodesic(line.geodesic)
 
-        line.path.forEach {
-            polylineOptions.add(it)
-        }
-
-        line.styleSpans.forEach {
-            if (it.segments != null) {
-                polylineOptions.addSpan(StyleSpan(it.color, it.segments))
-            } else {
-                polylineOptions.addSpan(StyleSpan(it.color))
-            }
-        }
-
-        return polylineOptions
-    }
 
     private fun buildMarker(marker: CapacitorGoogleMapMarker): MarkerOptions {
         val markerOptions = MarkerOptions()
@@ -841,7 +790,6 @@ class CapacitorGoogleMap(
         markerOptions.alpha(marker.opacity)
         markerOptions.flat(marker.isFlat)
         markerOptions.draggable(marker.draggable)
-
         if (!marker.iconUrl.isNullOrEmpty()) {
             if (this.markerIcons.contains(marker.iconUrl)) {
                 val cachedBitmap = this.markerIcons[marker.iconUrl]
